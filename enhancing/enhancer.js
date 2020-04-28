@@ -1,30 +1,47 @@
 module.exports = {
-  success,
+  succeed,
   fail,
   repair,
   get,
 };
 
-function success(item) {
-  const enhancement = item.enhancement;
-  const level = item.level;
-  if(level > 5) {
-    return { ...item, enhancement: enhancement + 10 };
-  }
-  else {
-    return { ...item, enhancement: enhancement}
-  }
+function succeed(item) {
+  const {enhancement} = item;
+  if(enhancement <20 && enhancement > -1 ){
+    return {...item, enhancement: enhancement + 1 }
+  } else if ( enhancement == 20){
+    return {...item}
+  } else {
+    return "Item can't exist"
+  };
 }
 
+
 function fail(item) {
-  const level = item.level;
-  const enhancement = item.enhancement;
-  if(level < 10) {
-    return { ...item, enhancement: enhancement - 1};
+  const {enhancement, durability} = item;
+  if(enhancement < 15 && enhancement > -1 && durability < 5){
+    return { ...item, durability: 0 }
+  } else if ((enhancement == 15 && durability< 10)|| enhancement == 16 && durability< 10){
+    return { ...item, durability: 0 }
+  } else if (enhancement > 16 && enhancement < 21 && durability < 10){
+    return { ...item, durability: 0, enhancement: enhancement -1 }
+  } else if(enhancement < 15 && enhancement > -1){
+    return { ...item, durability: durability -5 }
+  } else if (enhancement == 15 || enhancement == 16){
+    return { ...item, durability: durability - 10 }
+  } else if (enhancement > 16 && enhancement < 21){
+    return { ...item, durability: durability - 10, enhancement: enhancement -1 }
+  } else {
+    return "Item can't exist"
   }
+  
 }
 
 function repair(item) {
+  const {enhancement, durability} = item
+  if (enhancement > 20|| enhancement < 0 || durability > 100 || durability < 0) {
+    return "Item can't exist"
+  }
   return { ...item, durability: 100 };
 }
 
